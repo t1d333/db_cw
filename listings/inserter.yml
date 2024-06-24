@@ -1,0 +1,11 @@
+  inserter:
+    container_name: inserter
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    depends_on: ['kafka', 'clickhouse']
+    restart: always
+    networks: [logs]
+    ports:
+      - 8080:8080
+ 

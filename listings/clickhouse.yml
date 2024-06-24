@@ -1,0 +1,14 @@
+  clickhouse:
+    container_name: clickhouse
+    image: bitnami/clickhouse:latest
+    environment:
+      - CLICKHOUSE_ADMIN_USER={$CLICKHOUSE_ADMIN_USER}
+      - CLICKHOUSE_ADMIN_PASSWORD={$CLICKHOUSE_ADMIN_USER}
+    restart: always
+    networks: [logs]
+    ports:
+      - 9000:9000
+      - 8123:8123
+    volumes:
+      - ./scripts/clickhouse/init.sql:/docker-entrypoint-initdb.d/init.sql
+ 
