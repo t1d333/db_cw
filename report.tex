@@ -789,7 +789,7 @@ ClickHouse хорошо масштабируется горизонтально,
 	\label{table:clickhouse_tools}
 \end{table}
 
-На рисунке \ref{fig:clickbench} представлены результаты сравнения производительности ClickHouse и других популярных БД \cite{ClickBench}.
+На рисунке \ref{fig:clickbench} представлены результаты сравнения производительности ClickHouse и других популярных СУБД \cite{ClickBench}.
 
 
 \begin{figure}[H]
@@ -883,7 +883,7 @@ ClickHouse хорошо масштабируется горизонтально,
 
 
 
-Итоговая архитектура приложения изображена на рисуке \ref{fig:appscheme}.
+Итоговая архитектура приложения изображена на рисунке \ref{fig:appscheme}.
 
 \begin{figure}[H]
 	\centering
@@ -897,14 +897,14 @@ ClickHouse хорошо масштабируется горизонтально,
 
 
 Между брокером и базой данных есть промежуточный элемент. Это приложение,
-которые необходимо разработать. Этот слой позволяет
+которые необходимо разработать. Данный слой позволяет
 внедрить дополнительный функционал, например:
 
 \begin{itemize}
 	\item Проверка лог-сообщений на критические данные и их маскирование;
 	\item Обогащение данными из других источников;
-	\item
-	\item
+	\item Отправка оповещений в случае появления заданного события;
+	\item Запись в несколько источников;
 \end{itemize}
 
 Одной из важных особенностей данного слоя является организация
@@ -918,7 +918,7 @@ ClickHouse хорошо масштабируется горизонтально,
 
 \subsection{Выбор инструментов разработки}
 
-Для разработки приложбыл выбран язык Golang \cite{Golang} из-за следующих его преимуществ:
+Для разработки приложения был выбран язык Golang \cite{Golang} из-за следующих его преимуществ:
 
 \begin{itemize}
 	\item Высокая производительность. Golang компилируется в машинный код, что обеспечивает высокую производительность;
@@ -956,9 +956,9 @@ ClickHouse хорошо масштабируется горизонтально,
 
 Для реализации приложения
 необходимо настроить
-кластера для Apache Kafka
+кластеры Apache Kafka
 и ClickHouse, а также
-реализовать приложение-посредник
+разработать приложение-посредник
 для доставки сообщений из очереди
 сообщений в постоянное хранилище
 
@@ -1091,7 +1091,7 @@ API и слушатель очереди работают в разных пот
 Перед тем, как подать сигнал происходит обновление множества
 прослушиваемых очередей.
 
-На листинге \ref{lst:consumerctx} код запуска слушателя очередей.
+На листинге \ref{lst:consumerctx} представлен код запуска слушателя очередей.
 Данный слушатель запускается синхронно, т.е. код блокируется в 
 вызове функции s.client.Consume. После выхода 
 из функции происходит обработка причины выхода. Если 
@@ -1104,15 +1104,15 @@ API и слушатель очереди работают в разных пот
 	\inputminted[style=bw, frame=single,fontsize = \footnotesize, linenos=false, xleftmargin = 1.5em]{shell}{./listings/consumerctx.go}
 \end{listing}
 
-На листинге \ref{lst:dockerinserter} содержится описание приложения-посредника.
+
+Реализация взаимодействия с ClickHouse представлена на листинге \ref{lst:clickgo} 
 
 \begin{listing}[H]
-	\caption{Описание сервиса посредника в Docker Compose}
-	\label{lst:dockerinserter}
-	\inputminted[style=bw, frame=single,fontsize = \footnotesize, linenos=false, xleftmargin = 1.5em]{yaml}{./listings/inserter.yml}
+	\caption{Реализация взаимодействия посредника с ClickHouse}
+	\label{lst:clickgo}
+	\inputminted[style=bw, frame=single,fontsize = \footnotesize, linenos=false, xleftmargin = 1.5em]{golang}{./listings/clickgo.go}
 \end{listing}
 
-Реализация взаимодействия с ClickHouse представлена на листинге 
 Каждому источнику данных соответствует таблица с двумя полями:
 
 \begin{itemize}
@@ -1125,7 +1125,7 @@ API и слушатель очереди работают в разных пот
 позволяли извлекать значения определенных полей.
 Начиная с версии 22.3 тип JSON был обновлен, и перестал быть просто синонимом строкового типа.
 
-Схема обработки представлена на рисунке \ref{fig:jsonprocessing}. 
+Схема обработки значений типа JSON представлена на рисунке \ref{fig:jsonprocessing}. 
 
 \begin{figure}[H]
 	\centering
@@ -1179,7 +1179,14 @@ API и слушатель очереди работают в разных пот
 Как видно из рисунка, поле payload является не строкой,
 а кортежем различных значений, как числовых так и строковых.
 
+
+В итоге были настроены Apache Kafka и ClickHouse, а также
+реализованы все необходимые для интеграции
+модули приложения. Код всего приложения можно увидеть на листингах \ref{lst:mainfunc}-\ref{lst:bulk_worker}
+
+
 \section{Тестирование приложения}
+
 
 \renewcommand\refname{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}
 % Список литературы
@@ -1194,6 +1201,28 @@ API и слушатель очереди работают в разных пот
 \settocdepth{section}
 \anonsection{ПРИЛОЖЕНИЕ А}
 \vspace{-30pt}
+
+
+\begin{listing}[H]
+	\caption{Определение функции Main}
+	\label{lst:mainfunc}
+	\inputminted[style=bw, frame=single,fontsize = \footnotesize, linenos=, xleftmargin = 1.5em]{golang}{./listings/main.go}
+\end{listing}
+
+
+\begin{listing}[H]
+	\caption{Определение структуры Consumer}
+	\label{lst:structconsumer}
+	\inputminted[style=bw, frame=single,fontsize = \footnotesize, linenos=, xleftmargin = 1.5em]{golang}{./listings/consumer.go}
+\end{listing}
+
+\begin{listing}[H]
+	\caption{Запуск в отдельном потоке функции по загрузке накопленных сообщений}
+	\label{lst:bulk_worker}
+	\inputminted[style=bw, frame=single,fontsize = \footnotesize, linenos=, xleftmargin = 1.5em]{golang}{./listings/bulk_worker.go}
+\end{listing}
+
+
 
 
 \end{document}
