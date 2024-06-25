@@ -9,8 +9,7 @@ func (r *Repository) BulkInsert(ctx context.Context,
 		return err
 	}
 
-	batch, err := r.conn.PrepareBatch(ctx,
-							fmt.Sprintf("INSERT INTO %s", table))
+	batch, err := r.conn.PrepareBatch(ctx, fmt.Sprintf("INSERT INTO %s", table))
 	if err != nil {
 		return err
 	}

@@ -1110,7 +1110,7 @@ API и слушатель очереди работают в разных пот
 \begin{listing}[H]
 	\caption{Реализация взаимодействия посредника с ClickHouse}
 	\label{lst:clickgo}
-	\inputminted[style=bw, frame=single,fontsize = \footnotesize, linenos=false, xleftmargin = 1.5em]{golang}{./listings/clickgo.go}
+	\inputminted[breaklines=true, style=bw, frame=single,fontsize = \footnotesize, linenos=false, xleftmargin = 1.5em]{golang}{./listings/clickgo.go}
 \end{listing}
 
 Каждому источнику данных соответствует таблица с двумя полями:
@@ -1172,7 +1172,7 @@ API и слушатель очереди работают в разных пот
 		\centering
 		\includegraphics[width=.6\textwidth]{./imgs/descres1.png}
 	\end{minipage}
-	\caption{Обработка значения типа JSON в ClickHouse версии 22.3}
+	\caption{Преобразование JSON строки в ClickHouse версии 22.3}
 	\label{fig:descres}
 \end{figure}
 
@@ -1187,6 +1187,71 @@ API и слушатель очереди работают в разных пот
 
 \section{Тестирование приложения}
 
+Для тестирования приложения будет
+использан файл журала для веб сервера Nginx.
+Первоначально небходимо настроить агент Fluent-Bit. Конфигурация 
+представлена на листинге \ref{lst:fluentbitconf}.
+
+\begin{listing}[H]
+	\caption{Конфигурация Fluent-Bit}
+	\label{lst:fluentbitconf}
+	\inputminted[style=bw, frame=single,fontsize = \footnotesize, linenos=false, xleftmargin = 1.5em]{sql}{./listings/fluent-bit.conf}
+\end{listing}
+
+Согласно конфигурации, данные журнала будут
+считыватся из файла access.log и отправляться в 
+брокера сообщений Apache Kafka расположенный 
+по адресу kafka:9092.
+
+После запуска агента, в веб интерфейсе
+брокера сообщений можно наблюдать поток
+сообщений, изображенный на рисунке \ref{fig:fluentmsgs}.
+
+\begin{figure}[H]
+	\centering
+	\begin{minipage}[t]{.9\textwidth}
+		\centering
+		\includegraphics[width=.9\textwidth]{./imgs/msgs.png}
+	\end{minipage}
+	\caption{Результат отправки сообщений в очередь}
+	\label{fig:fluentmsgs}
+\end{figure}
+
+
+После подключения источника указанного в конфигурации
+Fluent-Bit посредством POST запроса, данные с очереди начнут 
+поступать в соответствующую таблицу ClickHouse. На рисунке
+На рисунке \ref{fig:inserterresult} можно видеть результат работы программы 
+посредника. Полученные из очереди собщения были вставлены в соответствующую таблицу.
+ 
+\begin{figure}[H]
+	\centering
+	\begin{minipage}[t]{.9\textwidth}
+		\centering
+		\includegraphics[width=.9\textwidth]{./imgs/inserterresult.png}
+	\end{minipage}
+	\caption{Результат работы приложения}
+	\label{fig:inserterresult}
+\end{figure}
+
+\newpage
+
+\anonsection{ЗАКЛЮЧЕНИЕ} 
+
+В ходе выполнения курсовой работы было проведено
+исследование особенностей колоночных баз данных и их пригодности для целей хранения,
+обработки и анализа больших объёмов лог-данных.
+Были рассмотрены различные представители колоночных СУБД их их особенности.
+
+Особое внимание было уделено системе ClickHouse,
+которая, благодаря своим характеристикам,
+таким как высокая скорость обработки данных, масштабируемость,
+эффективное сжатие данных,
+была выбрана в качестве основы для решения задач, связанных с журналированием.
+
+В результате выполнения курсовой работы была разработана система
+, позволяющие построить процесс сбора и сохранения журналов приложений
+с помощью различных агентов, примерами которых являются Fluent-Bit и Fluentd.
 
 \renewcommand\refname{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}
 % Список литературы
@@ -1203,6 +1268,7 @@ API и слушатель очереди работают в разных пот
 \vspace{-30pt}
 
 
+
 \begin{listing}[H]
 	\caption{Определение функции Main}
 	\label{lst:mainfunc}
@@ -1213,13 +1279,26 @@ API и слушатель очереди работают в разных пот
 \begin{listing}[H]
 	\caption{Определение структуры Consumer}
 	\label{lst:structconsumer}
-	\inputminted[style=bw, frame=single,fontsize = \footnotesize, linenos=, xleftmargin = 1.5em]{golang}{./listings/consumer.go}
+	\inputminted[breaklines=true, style=bw, frame=single,fontsize = \footnotesize, linenos=, xleftmargin = 1.5em]{golang}{./listings/consumer.go}
+\end{listing}
+
+\begin{listing}[H]
+	\caption{Определение структуры Delivery}
+	\label{lst:delivery}
+	\inputminted[breaklines=true, style=bw, frame=single,fontsize = \footnotesize, linenos=, xleftmargin = 1.5em]{golang}{./listings/delivery.go}
+\end{listing}
+
+
+\begin{listing}[H]
+	\caption{Обработка запроса на создание нового источника данных}
+	\label{lst:creategroupapi}
+	\inputminted[breaklines=true, style=bw, frame=single,fontsize = \footnotesize, linenos=, xleftmargin = 1.5em]{golang}{./listings/creategroupapi.go}
 \end{listing}
 
 \begin{listing}[H]
 	\caption{Запуск в отдельном потоке функции по загрузке накопленных сообщений}
 	\label{lst:bulk_worker}
-	\inputminted[style=bw, frame=single,fontsize = \footnotesize, linenos=, xleftmargin = 1.5em]{golang}{./listings/bulk_worker.go}
+	\inputminted[breaklines=true, style=bw, frame=single,fontsize = \footnotesize, linenos=, xleftmargin = 1.5em]{golang}{./listings/bulk_worker.go}
 \end{listing}
 
 
