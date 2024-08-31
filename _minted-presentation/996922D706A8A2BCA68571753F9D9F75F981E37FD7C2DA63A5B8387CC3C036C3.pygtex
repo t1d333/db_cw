@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{SELECT}\PYG{+w}{ }\PYG{n}{quantilesExactExclusive}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{.}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{.}\PYG{l+m+mi}{95}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{.}\PYG{l+m+mi}{99}\PYG{p}{)(}\PYG{k}{size}\PYG{p}{)}
+\PYG{k}{FROM}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{SELECT}\PYG{+w}{ }\PYG{n}{toInt64}\PYG{p}{(}\PYG{n}{payload}\PYG{p}{.}\PYG{k}{size}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{k}{size}\PYG{+w}{ }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{logs}\PYG{p}{)}
+\end{Verbatim}

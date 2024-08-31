@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{SELECT}\PYG{+w}{ }\PYG{n}{payload}\PYG{p}{.}\PYG{n}{code}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n}{code}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{COUNT}\PYG{p}{(}\PYG{n}{payload}\PYG{p}{.}\PYG{n}{code}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{k}{count}
+\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{logs}
+\PYG{k}{GROUP}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{payload}\PYG{p}{.}\PYG{n}{code}\PYG{p}{;}
+\end{Verbatim}

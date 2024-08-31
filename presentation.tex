@@ -18,6 +18,7 @@
 \usepackage{longtable}                              % Длинные таблицы
 \usepackage{multirow,makecell,array}                % Улучшенное форматирование таблиц
 \usepackage{booktabs}
+\usepackage{tabularx}
 
 \floatname{algorithm}{Листинг}
 \renewcommand{\algorithmname}{Листинг}
@@ -47,11 +48,25 @@
 
 
 \begin{frame}{Журналирование}
+  \metroset{block=fill}
+  \begin{alertblock}{Где используются данные журналов}
 	\begin{itemize}
 		\item Обеспечение подотчётности;
 		\item Диагностика проблем;
 		\item Мониторинг;
 	\end{itemize}
+  \end{alertblock}
+\end{frame}
+
+
+\begin{frame}{Журналирование}
+  \begin{alertblock}{Проблемы хранения данных журналов}
+	\begin{itemize}
+    \item Производительность традиционных СУБД;
+    \item Необходимость масштабирования;
+    \item Затруднительный анализ;
+	\end{itemize}
+  \end{alertblock}
 \end{frame}
 
 
@@ -81,30 +96,34 @@
 \begin{frame}{Колоночные СУБД}
 	\begin{figure}[H]
 		\centering
-		\begin{minipage}[t]{.88\textwidth}
-			\centering
-			\includegraphics[width=\linewidth]{./imgs/columnar-database.png}
-			\caption*{Хранение данных в колоночных СУБД}
-		\end{minipage}
+		\includegraphics[width=.8\linewidth]{./imgs/columnar-database.png}
+		\caption{Хранение данных в колоночных СУБД}
 	\end{figure}
 \end{frame}
 
-\begin{frame}{Преимущества колоночных СУБД}
-	\begin{itemize}
-		\item Высокая степень сжатия данных;
-		\item Скорость операций агрегации;
-		\item Гибкость схемы данных;
-	\end{itemize}
+\begin{frame}{Колоночные СУБД }
+
+	\metroset{block=fill}
+	\begin{alertblock}{Основные преимущества:}
+		\begin{itemize}
+			\item Высокая степень сжатия данных;
+			\item Скорость операций агрегации;
+			\item Гибкость схемы данных;
+		\end{itemize}
+	\end{alertblock}
 \end{frame}
 
 \begin{frame}{Колоночные СУБД}
-	\begin{itemize}
-		\item Apache Cassandra;
-		\item ClickHouse;
-		\item Google Bigtable;
-		\item Apache HBase;
-		\item Vertica;
-	\end{itemize}
+	\metroset{block=fill}
+	\begin{alertblock}{Популярные представители:}
+		\begin{itemize}
+			\item Apache Cassandra;
+			\item ClickHouse;
+			\item Google Bigtable;
+			\item Apache HBase;
+			\item Vertica;
+		\end{itemize}
+	\end{alertblock}
 \end{frame}
 
 \begin{frame}{СУБД ClickHouse}
@@ -114,7 +133,7 @@
 		\centering
 		\begin{minipage}[t]{.9\textwidth}
 			\centering
-			\includegraphics[width=.7\textwidth]{./imgs/clickbench.png}
+			\includegraphics[width=.9\textwidth]{./imgs/clickbench.png}
 		\end{minipage}
 		\caption{Сравнение производительности ClickHouse c другими СУБД}
 	\end{figure}
@@ -131,14 +150,15 @@
 	\end{figure}
 \end{frame}
 
-\begin{frame}{Тестирование}
-	\begin{listing}[H]
-		\caption{Конфигурация Fluent-Bit}
-		\label{lst:fluentbitconf}
-		\inputminted[style=bw, frame=single,fontsize = \footnotesize, linenos=false, xleftmargin = 1.5em]{sql}{./listings/fluent-bit.conf}
-	\end{listing}
+
+\begin{frame}{Реализация приложения}
 \end{frame}
 
+\begin{frame}{Реализация приложения}
+\end{frame}
+
+\begin{frame}{Реализация приложения}
+\end{frame}
 
 \begin{frame}{Тестирование}
 	\begin{table}[H]
@@ -155,13 +175,52 @@
 			10000                   & 67.990                             & 60.419                               & 0.680                        \\ \hline
 			20000                   & 133.698                            & 119.987                              & 0.668                        \\ \hline
 		\end{tabularx}
-		\label{table:tests_results}
 	\end{table}
 
 
 
 \end{frame}
 
+
+\begin{frame}{Визуализация данных}
+	\begin{listing}[H]
+		\caption{Конфигурация Fluent-Bit}
+		\inputminted[style=bw, frame=single,fontsize = \small, linenos=true, xleftmargin = 1.5em, breaklines=true]{sql}{./listings/codes.sql}
+	\end{listing}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.5\textwidth]{./imgs/nginx_grafana_status_codes.png}
+		\caption{Визуализация распределения кодов ответов на основе сообщений журнала}
+	\end{figure}
+
+\end{frame}
+
+\begin{frame}{Визуализация данных}
+	\begin{listing}[H]
+		\caption{Конфигурация Fluent-Bit}
+		\inputminted[style=bw, frame=single,fontsize = \small, linenos=true, xleftmargin = 1.5em, breaklines=true]{sql}{./listings/grafana_nginx_requests.sql}
+	\end{listing}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.5\textwidth]{./imgs/nginx_grafana_requests.png}
+		\caption{Визуализация частоты запросов на основе сообщений журнала}
+	\end{figure}
+
+\end{frame}
+
+\begin{frame}{Визуализация данных}
+	\begin{listing}[H]
+		\caption{Конфигурация Fluent-Bit}
+		\inputminted[style=bw, frame=single,fontsize = \small, linenos=true, xleftmargin = 1.5em, breaklines=true]{sql}{./listings/quantiles.sql}
+	\end{listing}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.7\textwidth]{./imgs/nginx_grafana_size_quantilie.png}
+		\caption{Квантили размеров ответов веб-сервера Nginx}
+	\end{figure}
+\end{frame}
 
 
 \begin{frame}{Заключение}
@@ -177,9 +236,10 @@
 \begin{frame}{Заключение}
 	В ходе разработки были получены следующие навыки:
 	\begin{itemize}
-		\item Разработка силовых алгоритмов и их применение к задаче визуализации связей пользователей соц. сетей;
-		\item Разработка на языке TypeScript;
-		\item Использование библиотеки Cytoscape.js для визуализации графовых данных;
+		\item Настройка и эксплуатация СУБД ClickHouse;
+		\item Разработка на языке Golang;
+		\item Использование брокера сообщений Apache Kafka для повышения доступности приложений;
+		\item Визуализации данных СУБД ClickHouse в инструменте Grafana.
 	\end{itemize}
 \end{frame}
 

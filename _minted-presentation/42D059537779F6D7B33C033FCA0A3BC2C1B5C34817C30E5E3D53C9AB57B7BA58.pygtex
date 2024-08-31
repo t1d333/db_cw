@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{SELECT}\PYG{+w}{ }\PYG{n}{toDateTime}\PYG{p}{(}\PYG{n}{payload}\PYG{p}{.}\PYG{l+s+s1}{\PYGZsq{}@timestamp\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{k}{time}\PYG{p}{,}
+\PYG{+w}{       }\PYG{k}{COUNT}\PYG{p}{(}\PYG{o}{*}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n}{requests}\PYG{+w}{ }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{logs}
+\PYG{k}{GROUP}\PYG{+w}{ }\PYG{k}{by}\PYG{+w}{ }\PYG{k}{time}
+\PYG{k}{ORDER}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{k}{time}\PYG{p}{;}
+\end{Verbatim}
