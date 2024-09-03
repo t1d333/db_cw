@@ -2,8 +2,6 @@
 
 all: build
 
-
-
 build:
 	@latexmk -f -pdf -output-directory=build -shell-escape ./report.tex
 

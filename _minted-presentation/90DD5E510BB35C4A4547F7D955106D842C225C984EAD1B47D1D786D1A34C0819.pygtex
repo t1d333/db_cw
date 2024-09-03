@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n+nx}{batch}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{n+nx}{r}\PYG{p}{.}\PYG{n+nx}{conn}\PYG{p}{.}\PYG{n+nx}{PrepareBatch}\PYG{p}{(}\PYG{n+nx}{ctx}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{fmt}\PYG{p}{.}\PYG{n+nx}{Sprintf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}INSERT INTO \PYGZpc{}s\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{table}\PYG{p}{))}
+\PYG{k}{if}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{	}\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{err}
+\PYG{p}{\PYGZcb{}}
+\PYG{k}{for}\PYG{+w}{ }\PYG{n+nx}{\PYGZus{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{log}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{k}{range}\PYG{+w}{ }\PYG{n+nx}{logs}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{	}\PYG{k}{if}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{n+nx}{batch}\PYG{p}{.}\PYG{n+nx}{Append}\PYG{p}{(}\PYG{n+nx}{time}\PYG{p}{.}\PYG{n+nx}{Now}\PYG{p}{(),}\PYG{+w}{ }\PYG{n+nx}{log}\PYG{p}{);}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{		}\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{err}
+\PYG{+w}{	}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\PYG{k}{return}\PYG{+w}{ }\PYG{n+nx}{batch}\PYG{p}{.}\PYG{n+nx}{Send}\PYG{p}{()}
+\end{Verbatim}

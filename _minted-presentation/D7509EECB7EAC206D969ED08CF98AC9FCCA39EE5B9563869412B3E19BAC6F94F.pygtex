@@ -1,0 +1,14 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{type}\PYG{+w}{ }\PYG{n+nx}{Repository}\PYG{+w}{ }\PYG{k+kd}{struct}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{	}\PYG{n+nx}{conn}\PYG{+w}{ }\PYG{n+nx}{driver}\PYG{p}{.}\PYG{n+nx}{Conn}
+\PYG{+w}{	}\PYG{n+nx}{log}\PYG{+w}{  }\PYG{n+nx}{logger}\PYG{p}{.}\PYG{n+nx}{Logger}
+\PYG{p}{\PYGZcb{}}
+\PYG{k+kd}{func}\PYG{+w}{ }\PYG{n+nx}{NewRepository}\PYG{p}{(}\PYG{n+nx}{conn}\PYG{+w}{ }\PYG{n+nx}{driver}\PYG{p}{.}\PYG{n+nx}{Conn}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{log}\PYG{+w}{ }\PYG{n+nx}{logger}\PYG{p}{.}\PYG{n+nx}{Logger}\PYG{p}{)}\PYG{+w}{ }\PYG{n+nx}{repository}\PYG{p}{.}\PYG{n+nx}{Repository}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{	}\PYG{k}{if}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{:=}\PYG{+w}{ }\PYG{n+nx}{conn}\PYG{p}{.}\PYG{n+nx}{Exec}\PYG{p}{(}\PYG{n+nx}{context}\PYG{p}{.}\PYG{n+nx}{Background}\PYG{p}{(),}\PYG{+w}{ }\PYG{l+s}{`SET allow\PYGZus{}experimental\PYGZus{}object\PYGZus{}type = 1;`}\PYG{p}{);}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{k+kc}{nil}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{	}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{	}\PYG{k}{return}\PYG{+w}{ }\PYG{o}{\PYGZam{}}\PYG{n+nx}{Repository}\PYG{p}{\PYGZob{}}
+\PYG{+w}{		}\PYG{n+nx}{conn}\PYG{p}{:}\PYG{+w}{ }\PYG{n+nx}{conn}\PYG{p}{,}
+\PYG{+w}{		}\PYG{n+nx}{log}\PYG{p}{:}\PYG{+w}{  }\PYG{n+nx}{log}\PYG{p}{,}
+\PYG{+w}{	}\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

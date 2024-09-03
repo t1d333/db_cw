@@ -990,7 +990,7 @@ ClickHouse хорошо масштабируется горизонтально,
 реализумого приложения будут разворачиваться
 в Docker контейнерах \cite{DockerBook}. Для организации
 взаимодействия между контейнерами будет
-использоваться Docker Compose.
+использоваться Docker Compose \cite{DockerComposeDocs}.
 
 \subsection{Настройка Apache Kafka}
 
@@ -1205,7 +1205,7 @@ API и слушатель очереди работают в разных пот
 
 В итоге были настроены Apache Kafka и ClickHouse, а также
 реализованы все необходимые для интеграции
-модули приложения. Код всего приложения можно увидеть на листингах \ref{lst:mainfunc}-\ref{lst:bulk_worker}
+модули приложения. Код всего приложения можно увидеть на листингах \ref{lst:structconsumer}-\ref{lst:bulk_worker}
 
 
 \section{Тестирование приложения}
@@ -1362,7 +1362,6 @@ Grafana --- широко используемая система для визу
 Таким образом, разработанный инструмент сбора и хранения журналов приложений вместе с Grafana позволяют организовать наблюдение за состоянием приложения на основе его лог-сообщений. Это приводит к повышению прозрачности процессов внутри системы, поскольку все ключевые метрики и события становятся легко доступными для анализа в реальном времени. Использование Grafana для визуализации собранных данных не только упрощает процесс мониторинга за приложением, но и значительно повышает скорость выявления и устранения возможных неполадок или узких мест системы.
 
 \newpage
-
 \anonsection{ЗАКЛЮЧЕНИЕ}
 
 В ходе выполнения курсовой работы было проведено
@@ -1380,7 +1379,6 @@ Grafana --- широко используемая система для визу
 , позволяющие построить процесс сбора и сохранения журналов приложений
 с помощью различных агентов, примерами которых являются Fluent-Bit и Fluentd.
 
-
 \renewcommand\refname{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}
 % Список литературы
 \clearpage
@@ -1395,6 +1393,11 @@ Grafana --- широко используемая система для визу
 \anonsection{ПРИЛОЖЕНИЕ А}
 \vspace{-30pt}
 
+\begin{listing}[H]
+	\caption{Определение структуры Consumer}
+	\label{lst:structconsumer}
+	\inputminted[breaklines=true, style=bw, frame=single,fontsize = \footnotesize, linenos=, xleftmargin = 1.5em]{golang}{./listings/consumer.go}
+\end{listing}
 
 \begin{listing}[H]
 	\caption{Определение функции Main}
@@ -1403,11 +1406,7 @@ Grafana --- широко используемая система для визу
 \end{listing}
 
 
-\begin{listing}[H]
-	\caption{Определение структуры Consumer}
-	\label{lst:structconsumer}
-	\inputminted[breaklines=true, style=bw, frame=single,fontsize = \footnotesize, linenos=, xleftmargin = 1.5em]{golang}{./listings/consumer.go}
-\end{listing}
+
 
 \begin{listing}[H]
 	\caption{Определение структуры Delivery}

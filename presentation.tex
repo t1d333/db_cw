@@ -48,25 +48,25 @@
 
 
 \begin{frame}{Журналирование}
-  \metroset{block=fill}
-  \begin{alertblock}{Где используются данные журналов}
-	\begin{itemize}
-		\item Обеспечение подотчётности;
-		\item Диагностика проблем;
-		\item Мониторинг;
-	\end{itemize}
-  \end{alertblock}
+	\metroset{block=fill}
+	\begin{alertblock}{Где используются данные журналов}
+		\begin{itemize}
+			\item Обеспечение подотчётности;
+			\item Диагностика проблем;
+			\item Мониторинг;
+		\end{itemize}
+	\end{alertblock}
 \end{frame}
 
 
 \begin{frame}{Журналирование}
-  \begin{alertblock}{Проблемы хранения данных журналов}
-	\begin{itemize}
-    \item Производительность традиционных СУБД;
-    \item Необходимость масштабирования;
-    \item Затруднительный анализ;
-	\end{itemize}
-  \end{alertblock}
+	\begin{alertblock}{Проблемы хранения данных журналов}
+		\begin{itemize}
+			\item Производительность традиционных СУБД;
+			\item Необходимость масштабирования;
+			\item Затруднительный анализ;
+		\end{itemize}
+	\end{alertblock}
 \end{frame}
 
 
@@ -152,17 +152,50 @@
 
 
 \begin{frame}{Реализация приложения}
+	\begin{alertblock}{Модули приложения}
+		\begin{itemize}
+			\item Интерфейс взаимодействия: REST API;
+			\item Модуль чтения сообщений Apache Kafka;
+			\item Модуль взаимодействия с СУБД ClickHouse.
+		\end{itemize}
+	\end{alertblock}
 \end{frame}
 
-\begin{frame}{Реализация приложения}
+\begin{frame}{Интерфейс взаимодействия}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.9\textwidth]{./imgs/swagger.png}
+    \caption{REST API в формате OpenAPI(Swagger)}
+	\end{figure}
+
 \end{frame}
 
-\begin{frame}{Реализация приложения}
+\begin{frame}{Интеграция с Apache Kafka}
+	\metroset{block=fill}
+  \begin{alertblock}{Библиотека Sarama}
+    \item Нативная библиотека;
+    \item Активное сообщество;
+    \item Подробная документация с примерами использования;
+  \end{alertblock}
+\end{frame}
+
+\begin{frame}{Интеграция с ClickHouse}
+  \begin{listing}[H]
+		\caption{Структура для взаимодействия с ClickHouse}
+		\inputminted[style=bw, frame=single,fontsize=\small, linenos=true, xleftmargin = 1.5em, breaklines=true]{golang}{./listings/click_repo.go}
+	\end{listing}
+\end{frame}
+
+\begin{frame}{Интеграция с ClickHouse}
+  \begin{listing}[H]
+		\caption{Множественная вставка в ClickHouse}
+		\inputminted[style=bw, frame=single,fontsize=\small, linenos=true, xleftmargin = 1.5em, breaklines=true]{golang}{./listings/bulk_insert_body.go}
+	\end{listing}
 \end{frame}
 
 \begin{frame}{Тестирование}
 	\begin{table}[H]
-		\caption{\centering Инструменты для работы с ClickHouse}
+		\caption{\centering Результаты тестирования приложения}
 		\centering
 		\begin{tabularx}{\textwidth}{|X|X|X|l|}
 			\hline
@@ -176,9 +209,6 @@
 			20000                   & 133.698                            & 119.987                              & 0.668                        \\ \hline
 		\end{tabularx}
 	\end{table}
-
-
-
 \end{frame}
 
 
@@ -211,7 +241,7 @@
 
 \begin{frame}{Визуализация данных}
 	\begin{listing}[H]
-		\caption{Конфигурация Fluent-Bit}
+		\caption{Получение квантилей в ClickHouse}
 		\inputminted[style=bw, frame=single,fontsize = \small, linenos=true, xleftmargin = 1.5em, breaklines=true]{sql}{./listings/quantiles.sql}
 	\end{listing}
 
